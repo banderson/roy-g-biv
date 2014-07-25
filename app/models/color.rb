@@ -1,25 +1,4 @@
 class Color
-  # queue methods that would live elsewhere in real app
-  @@queue = []
-
-  def self.enqueue(item=get_random)
-    @@queue << item
-  end
-
-  def self.dequeue()
-    # enqueue
-    @@queue.shift
-  end
-
-  def self.length
-    @@queue.length
-  end
-
-  def self.empty
-    @@queue = []
-  end
-
-  # normal 'model' functionality below
   attr_accessor :r, :g, :b
 
   def self.get_random

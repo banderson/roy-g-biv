@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe ColorsController, :type => :controller do
-  before(:each) { Color.empty }
+  let!(:queue) do
+    Queues::InMemory.empty
+    Queues::InMemory
+  end
 
   describe '#INDEX' do
     it 'should render the index template' do
@@ -17,7 +20,7 @@ describe ColorsController, :type => :controller do
 
   describe '#CREATE' do
     it 'should add a color into the queue' do
-      expect{post :create}.to change{Color.length}.by 1
+      expect{post :create}.to change{queue.length}.by 1
     end
 
     it 'should return 200 ok' do
@@ -28,18 +31,18 @@ describe ColorsController, :type => :controller do
 
   describe '#GET' do
     it 'should remove the first color from the queue' do
-      Color.enqueue
-      expect{get :show}.to change{Color.length}.by(-1)
+      post :create
+      expect{get :show}.to change{queue.length}.by(-1)
     end
 
     it 'should return default color if no colors left in the queue' do
-      expect{get :show}.to change{Color.length}.by 0
+      expect{get :show}.to change{queue.length}.by 0
       expect(response.body).to eq '{"r":0,"g":0,"b":0}'
     end
 
     it 'should return 200 ok' do
       expect(get :show).to have_http_status :ok
-      Color.enqueue
+      post :create
       expect(get :show).to have_http_status :ok
     end
   end
