@@ -3,12 +3,12 @@ require 'rails_helper'
 feature 'Start Color Changes', :type => :feature, js: true do
   before :each do
     visit '/'
-    Queues::InMemory.empty
+    Queues::RedisQueue.empty
   end
 
-  after(:all) { InMemory.empty }
+  after(:all) { Queues::RedisQueue.empty }
 
-  let(:queue) { Queues::InMemory }
+  let(:queue) { Queues::RedisQueue }
 
   it 'should start off as a blank background' do
     expect(page.find('body')[:style]).to eq ''

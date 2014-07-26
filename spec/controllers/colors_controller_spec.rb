@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe ColorsController, :type => :controller do
   let!(:queue) do
-    Queues::InMemory.empty
-    Queues::InMemory
+    Queues::RedisQueue.empty
+    Queues::RedisQueue
   end
 
-  after(:all) { InMemory.empty }
+  after(:all) { Queues::RedisQueue.empty }
 
   describe '#INDEX' do
     it 'should render the index template' do

@@ -1,5 +1,5 @@
 module Queues
-  class Redis
+  class RedisQueue
     REDIS = Redis.new(:url => ENV['REDIS_URL'])
     MAX_VALUES = 1000 # don't run out of memory
 
