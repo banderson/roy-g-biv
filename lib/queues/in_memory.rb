@@ -5,11 +5,12 @@ module Queues
 
     def self.enqueue(item)
       return if length >= MAX_VALUES
-      @@queue << item
+      @@queue << Marshal.dump(item)
     end
 
     def self.dequeue()
-      @@queue.shift
+      return nil if length == 0
+      Marshal.load @@queue.shift
     end
 
     def self.length

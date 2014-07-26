@@ -6,6 +6,8 @@ describe ColorsController, :type => :controller do
     Queues::InMemory
   end
 
+  after(:all) { InMemory.empty }
+
   describe '#INDEX' do
     it 'should render the index template' do
       get :index

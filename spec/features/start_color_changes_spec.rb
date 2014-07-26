@@ -6,6 +6,8 @@ feature 'Start Color Changes', :type => :feature, js: true do
     Queues::InMemory.empty
   end
 
+  after(:all) { InMemory.empty }
+
   let(:queue) { Queues::InMemory }
 
   it 'should start off as a blank background' do
@@ -14,7 +16,7 @@ feature 'Start Color Changes', :type => :feature, js: true do
 
   it 'should change the color as soon as the button is clicked' do
     page.click_button 'Start'
-    expect(page.find('body')[:style]).to start_with 'background-color: rgb('
+    expect(page.find('body.activated')[:style]).to start_with 'background-color: rgb('
   end
 
   it 'should change the color every 3 seconds' do
@@ -22,12 +24,12 @@ feature 'Start Color Changes', :type => :feature, js: true do
     queue.enqueue Color.new 90, 80, 70
     queue.enqueue Color.new 80, 70, 60
     page.click_button 'Start'
-    expect(page.find('body')[:style]).to eq 'background-color: rgb(100, 90, 80);'
+    expect(page.find('body.activated')[:style]).to eq 'background-color: rgb(100, 90, 80);'
     # Note: I usually have a rule against sleep statements in specs because they're unreliable...
     sleep 3
-    expect(page.find('body')[:style]).to eq 'background-color: rgb(90, 80, 70);'
+    expect(page.find('body.activated')[:style]).to eq 'background-color: rgb(90, 80, 70);'
     sleep 3
-    expect(page.find('body')[:style]).to eq 'background-color: rgb(80, 70, 60);'
+    expect(page.find('body.activated')[:style]).to eq 'background-color: rgb(80, 70, 60);'
   end
 
   it 'should use black background when colors have run out' do
