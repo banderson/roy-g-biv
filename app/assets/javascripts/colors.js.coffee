@@ -4,7 +4,9 @@ jQuery ($) ->
 
   fetchAndChangeColor = () ->
     $.get('/colors/next').done((res) ->
-      $('body').css backgroundColor: "rgb(#{res.r}, #{res.g}, #{res.b})"
+      $('body')
+        .css(backgroundColor: "rgb(#{res.r}, #{res.g}, #{res.b})")
+        .addClass 'activated'
     ).fail (res, err, reason) ->
       console.error "An error occurred: #{res.status} - #{reason}"
 
