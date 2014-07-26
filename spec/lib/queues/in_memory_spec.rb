@@ -4,7 +4,7 @@ class TestObject; end
 
 module Queues
   describe InMemory do
-    let(:queue) { InMemory }
+    let(:queue) { InMemory.empty; InMemory }
 
     it 'should be a thing' do
       expect(InMemory.class).to eq Class
@@ -19,6 +19,15 @@ module Queues
         output = queue.dequeue
         expect(queue.length).to eq 0
         expect(output).to eq input
+      end
+
+      it 'should not add more than the maximum allows' do
+        100.times { queue.enqueue TestObject.new }
+        expect(queue.length).to eq 100
+        next_item = TestObject.new
+        queue.enqueue next_item
+        expect(queue.length).to eq 100
+        expect(queue.dequeue).not_to eq next_item
       end
     end
 
