@@ -1,5 +1,8 @@
 require 'rails_helper'
 
+# http://guides.rubyonrails.org/testing.html#available-request-types-for-functional-tests
+# http://everydayrails.com/2012/04/07/testing-series-rspec-controllers.html
+
 describe ColorsController, :type => :controller do
   let!(:queue) do
     Queues::RedisQueue.empty
